@@ -14,33 +14,40 @@ type Gorc struct {
 // Inc increases the counter by one.
 func (g *Gorc) Inc() {
 	g.Lock()
+	defer g.Unlock()
+
 	g.count++
-	g.Unlock()
 }
 
 // IncBy increases the counter by b.
 func (g *Gorc) IncBy(b int) {
 	g.Lock()
+	defer g.Unlock()
+
 	g.count += b
-	g.Unlock()
 }
 
 // Dec decreases the counter by one.
 func (g *Gorc) Dec() {
 	g.Lock()
+	defer g.Unlock()
+
 	g.count--
-	g.Unlock()
 }
 
 // DecBy decreases the counter by b.
 func (g *Gorc) DecBy(b int) {
 	g.Lock()
+	defer g.Unlock()
+	
 	g.count -= b
-	g.Unlock()
 }
 
 // GetCount returns an integer holding the count.
 func (g *Gorc) Get() int {
+	g.Lock()
+	defer g.Unlock()
+	
 	return int(g.count)
 }
 
@@ -48,16 +55,18 @@ func (g *Gorc) Get() int {
 // waits between checking the count against the given integer.
 func (g *Gorc) SetWaitMillis(w int) {
 	g.Lock()
+	defer g.Unlock()
+
 	g.waitMillis = time.Duration(w) * time.Millisecond
-	g.Unlock()
 }
 
 // Init initializes a new Gorc instance
 func (g *Gorc) Init() {
 	g.Lock()
+	defer g.Unlock()
+
 	g.count = 0
 	g.waitMillis = 100 * time.Millisecond
-	g.Unlock()
 }
 
 // WaitLow will return as soon as the Gorc counter falls below w.
