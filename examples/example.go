@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/mr51m0n/gorc"
 	"math/rand"
 	"time"
+
+	"github.com/GetTerminus/gorc"
 )
 
 var gorc0 gorc.Gorc
@@ -25,7 +26,7 @@ func main() {
 }
 
 func init() {
-	gorc0.Init()
+	gorc0 = gorc.NewGorc(100)
 }
 
 func withoutgorc(i int) {
@@ -35,6 +36,6 @@ func withoutgorc(i int) {
 
 func withgorc(i int) {
 	defer gorc0.Dec() // decrease counter when finished
-	fmt.Println("Nr.", i, " ", gorc0.Get(), "gorc goroutines running..")
+	fmt.Println("Nr.", i, " ", gorc0.GetCount(), "gorc goroutines running..")
 	time.Sleep(time.Duration(rand.Int31n(2000)) * time.Millisecond)
 }
