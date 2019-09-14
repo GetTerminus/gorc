@@ -11,7 +11,7 @@ var _ = Describe("Gorc", func() {
 	var cut gorc.Gorc
 
 	BeforeEach(func() {
-		cut = gorc.NewGorc()
+		cut = gorc.NewGorc(100)
 	})
 
 	Describe("NewGorc", func() {
@@ -40,15 +40,29 @@ var _ = Describe("Gorc", func() {
 		})
 	})
 
-	Describe("SetWaitMillis", func() {
-
-	})
-
 	Describe("WaitLow", func() {
+		BeforeEach(func() {
+			cut.Inc()
+		})
 
+		It("should complete", func(done Done) {
+			go func() {
+				cut.WaitLow(1)
+				close(done)
+			}()
+
+			cut.Dec()
+		})
 	})
 
 	Describe("WaitHigh", func() {
+		It("should complete", func(done Done) {
+			go func() {
+				cut.WaitHigh(0)
+				close(done)
+			}()
 
+			cut.Inc()
+		})
 	})
 })
