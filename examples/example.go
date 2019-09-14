@@ -8,7 +8,7 @@ import (
 	"github.com/GetTerminus/gorc"
 )
 
-var gorc0 *gorc.Gorc
+var gorc0 gorc.Gorc
 
 func main() {
 
@@ -26,7 +26,7 @@ func main() {
 }
 
 func init() {
-	gorc0 = gorc.NewGorc()
+	gorc0 = gorc.NewGorc(100)
 }
 
 func withoutgorc(i int) {
